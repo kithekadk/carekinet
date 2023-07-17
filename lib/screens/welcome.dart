@@ -7,8 +7,8 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
-      appBar: _buildAppBar(),
+      backgroundColor: Color.fromARGB(255, 175, 204, 254),
+      // appBar: _buildAppBar(),
       body: Stack(
         children: [
           Container(
@@ -40,32 +40,36 @@ class WelcomePage extends StatelessWidget {
 }
 
 Widget introText(BuildContext context) {
-  final setHeight = MediaQuery.of(context).size.height;
-  final requiredHeight = setHeight * 0.5;
+  Size size = MediaQuery.of(context).size;
   return Padding(
     padding: const EdgeInsets.all(16.0),
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
-          "Hello Friend,",
-          style: TextStyle(fontSize: 12),
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: const EdgeInsets.only(top: 40.0),
+          child: const Text(
+            "Hello Friend,",
+            style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 0, 140, 254)),
+          ),
         ),
         const SizedBox(height: 12),
         const Center(
           child: Text('Care Kinet',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,)),
         ),
         const SizedBox(
           height: 10,
         ),
         const Text(
-          'CareKinet is a mobile application designed to provide healthcare information and support to individuals. CareKinet helps users manage their appointments efficiently, ensuring timely access to healthcare services. It also focuses on improving drug adherence by providing medication reminders and tracking tools. Additionally, the app simplifies the process of finding and hiring home caregivers, offering a directory and matching services. With its user-friendly interface and diverse features, CareKinet empowers individuals to take control of their healthcare by seamlessly managing appointments, promoting medication adherence, and facilitating caregiver connections.',
-          style: TextStyle(fontSize: 12),
+          'CareKinet is a mobile application designed to provide healthcare information and support to individuals. CareKinet helps users manage their appointments efficiently, ensuring timely access to healthcare services. It also focuses on improving drug adherence by providing medication reminders and tracking tools. Additionally, the app simplifies the process of finding and hiring home caregivers, offering a directory and matching services.',
+          style: TextStyle(fontSize: 13, color: Colors.black),
         ),
 
         SizedBox(
-          height: requiredHeight,
+          height: size.height * 0.5,
+          child: Image.asset('assets/nurse.png'),
         ), //creates a gap to push the text below it to the bottom
         GestureDetector(
             onTap: () {
@@ -73,7 +77,7 @@ Widget introText(BuildContext context) {
                   MaterialPageRoute(builder: (context) => const VerifyPhone()));
             },
             child: const Center(
-              child: Text('Get Started >>'),
+              child: Text('Get Started >>', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
             ))
       ],
     ),
