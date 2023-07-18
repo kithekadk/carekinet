@@ -1,3 +1,4 @@
+import 'package:carekinet/screens/registerPatient.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
@@ -6,8 +7,15 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 175, 204, 254),
-      body: loginPage(context),
+      backgroundColor: const Color.fromARGB(255, 175, 204, 254),
+      body: Stack(
+        children: [
+          Image.asset('assets/loginbg.png', fit: BoxFit.cover, width: double.infinity, height: double.infinity,),
+          Center(
+            child: loginPage(context),
+          )
+        ],
+      ),
     );
   }
 }
@@ -20,7 +28,7 @@ Widget loginPage(BuildContext context) {
       children: [
         Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.only(top: size.height * 0.2),
+          margin: EdgeInsets.only(top: size.height * 0.13),
           child: const Text(
             'Care Kinet',
             style: TextStyle(fontSize: 40, color: Colors.black, fontWeight: FontWeight.bold),
@@ -48,7 +56,7 @@ Widget loginPage(BuildContext context) {
           margin: EdgeInsets.only(top: size.width * 0.05),
           width: size.width * 0.9,
           child: const TextField(
-            obscureText: true,
+            obscureText: true, // hide text for password inputs
             decoration: InputDecoration(
               labelText: 'Password' ,
               labelStyle: TextStyle(color: Color.fromARGB(255, 40, 40, 40)),
@@ -94,7 +102,7 @@ Widget loginPage(BuildContext context) {
               height: size.height * 0.06,
               margin: EdgeInsets.only(top: size.height * 0.01),
               child: OutlinedButton(onPressed: ()=>{
-            
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const RegisterPatient()))
               }, child: const Text('SIGN UP')),
             )
           ],
