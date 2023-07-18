@@ -46,6 +46,8 @@ Widget registerPatient(BuildContext context) {
           margin: EdgeInsets.symmetric(vertical: size.height * 0.01),
           width: size.width * 0.9,
           child: const TextField(
+            obscureText: 
+            true,
             decoration: InputDecoration(
                 labelText: 'Password', border: OutlineInputBorder()),
           ),
@@ -53,6 +55,7 @@ Widget registerPatient(BuildContext context) {
         Container(
           width: size.width * 0.9,
           child: const TextField(
+            obscureText: true,
             decoration: InputDecoration(
                 labelText: 'Confirm Password', border: OutlineInputBorder()),
           ),
@@ -81,7 +84,7 @@ Widget registerPatient(BuildContext context) {
               const Text('Already have an account?', style: TextStyle(fontWeight: FontWeight.bold),),
               GestureDetector(
                 onTap: ()=>{
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Login()))
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()))
                 }, child: const Text('Log in', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),)
             ],
