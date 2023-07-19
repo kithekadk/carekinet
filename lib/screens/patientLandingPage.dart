@@ -29,6 +29,7 @@ AppBar _buildAppBar() {
   );
 }
 
+
 Widget patientPage(BuildContext context) {
   Size size = MediaQuery.of(context).size;
   return SingleChildScrollView(
@@ -39,7 +40,7 @@ Widget patientPage(BuildContext context) {
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(50.0),
                   bottomRight: Radius.circular(50.0)),
-              color: Colors.grey),
+              color: Color.fromARGB(255, 136, 217, 255)),
           height: size.height * 0.15,
           padding:
               EdgeInsets.symmetric(vertical: 8, horizontal: size.width * 0.03),
@@ -61,20 +62,54 @@ Widget patientPage(BuildContext context) {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(decoration: const BoxDecoration(color: Colors.orange), width: 80 , height: 80 ,child: TextButton(onPressed: () => {}, child: const Icon(Icons.warning, color:Colors.red),)),
-              Container(decoration: const BoxDecoration(color: Colors.orange), width: 80 , height: 80 ,child: TextButton(onPressed: ()=> {}, child: Icon(Icons.message))),
-              Container(decoration: const BoxDecoration(color: Colors.orange), width: 80 , height: 80,child: TextButton(onPressed: ()=> {}, child: Text('Finding caregiver?', textAlign: TextAlign.center, style: TextStyle(fontSize: 11.0),)))
+              Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  width: 80,
+                  height: 80,
+                  child: TextButton(
+                    onPressed: () => {},
+                    child: const Icon(Icons.warning, color: Colors.red),
+                  )),
+              Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  width: 80,
+                  height: 80,
+                  child: TextButton(
+                      onPressed: () => {},
+                      child: const Icon(
+                        Icons.message,
+                        color: Colors.white,
+                      ))),
+              Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  width: 80,
+                  height: 80,
+                  child: TextButton(
+                      onPressed: () => {},
+                      child: const Text(
+                        'Finding caregiver?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 11.0, color: Colors.white),
+                      )))
             ],
           ),
-        )
+        ),
+        activitiesSection(context)
       ],
     ),
   );
 }
+
 
 Widget searchBox(BuildContext context) {
   Size size = MediaQuery.of(context).size;
@@ -95,4 +130,55 @@ Widget searchBox(BuildContext context) {
             hintText: 'Search',
             hintStyle: TextStyle(color: Colors.white)),
       ));
+}
+
+
+Widget activitiesSection(BuildContext context) {
+  Size size = MediaQuery.of(context).size;
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: size.width * 0.03, bottom: size.width * 0.03),
+          child: const Text(
+            'Activity', textAlign: TextAlign.start,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        const Center(
+          child: Text('You have no dosages'),
+        ),
+        Divider(height: 5, thickness: 2.0, color: grey,),
+        Row(
+          children: [
+            const Icon(
+              Icons.local_hospital, size: 50,color: Colors.green,
+            ),
+            Container(
+              width: size.width * 0.7,
+              padding: EdgeInsets.only(top: size.height * 0.1, left: size.width*0.2),
+                child:GestureDetector(
+                  child: Text('Add Dosages Now', style: TextStyle(color: grey),),
+                )
+              ),
+          ],
+        ),
+        Row(
+          children: [
+            const Icon(
+              Icons.calendar_today, size: 50,color: Colors.green,
+            ),
+            Container(
+              width: size.width * 0.7,
+              padding: EdgeInsets.only(top: size.height * 0.1, left: size.width*0.15),
+                child:GestureDetector(
+                  child: Text('Lets help you never miss any Appointment',style: TextStyle(color: grey),),
+                )
+              ),
+          ],
+        )
+      ],
+    ),
+  );
 }
