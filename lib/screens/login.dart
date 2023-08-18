@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:carekinet/screens/patientLandingPage.dart';
 import 'package:carekinet/screens/registerPatient.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -11,6 +15,34 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool hidePassword = true;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<void> _performLogin(String email, String password) async {
+    const apiUrl = 'http://localhost:4500/employee/login';
+
+    try {
+      final response = await http.post(Uri.parse(apiUrl),
+          body: {'email': email, 'password': password});
+
+      print(response);
+
+      if (response.statusCode == 200) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const PatientLandingPage()));
+      } else {
+        final responseData = json.decode(response.body);
+        final errorMsg = responseData['message'] ?? 'Login failed';
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(errorMsg)));
+      }
+    } catch (error) {
+      print(error);
+      print('Error during login: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +95,10 @@ class _LoginState extends State<Login> {
         Container(
             margin: EdgeInsets.only(top: size.width * 0.1),
             width: size.width * 0.9,
-            child: const TextField(
-              decoration: InputDecoration(
-                  labelText: 'Username',
+            child: TextField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                  labelText: 'Email',
                   labelStyle: TextStyle(color: Color.fromARGB(255, 40, 40, 40)),
                   border: OutlineInputBorder(),
                   filled: true,
@@ -77,6 +110,7 @@ class _LoginState extends State<Login> {
           margin: EdgeInsets.only(top: size.width * 0.05),
           width: size.width * 0.9,
           child: TextField(
+            controller: passwordController,
             obscureText: hidePassword, // hide text for password inputs
             decoration: InputDecoration(
                 labelText: 'Password',
@@ -95,7 +129,7 @@ class _LoginState extends State<Login> {
                 border: const OutlineInputBorder(),
                 filled: true,
                 fillColor: const Color.fromARGB(255, 221, 221, 221),
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
           ),
         ),
@@ -123,11 +157,13 @@ class _LoginState extends State<Login> {
               margin: EdgeInsets.only(top: size.height * 0.02),
               child: ElevatedButton(
                   onPressed: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const PatientLandingPage()))
+                        _performLogin(
+                            emailController.text, passwordController.text)
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) =>
+                        //             const PatientLandingPage()))
                       },
                   child: const Text('LOGIN')),
             ),
