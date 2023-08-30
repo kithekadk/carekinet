@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  Future<void> _performLogin(String email, String password) async {
+  Future<http.Response> _performLogin(String email, String password) async {
     const apiUrl = 'http://localhost:4500/employee/login';
 
     try {
@@ -26,6 +26,7 @@ class _LoginState extends State<Login> {
           body: {'email': email, 'password': password});
 
       print(response);
+      
 
       if (response.statusCode == 200) {
         Navigator.pushReplacement(
@@ -38,9 +39,12 @@ class _LoginState extends State<Login> {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(errorMsg)));
       }
+      return response;
+
     } catch (error) {
       print(error);
       print('Error during login: $error');
+      return http.Response('Error during login', 500);
     }
   }
 
