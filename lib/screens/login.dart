@@ -19,30 +19,29 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
 
   Future<http.Response> _performLogin(String email, String password) async {
-    const apiUrl = 'http://localhost:4500/employee/login';
+    const apiUrl = 'http://10.0.2.2:4500/employee/login';
 
     try {
       final response = await http.post(Uri.parse(apiUrl),
-          body: {'email': email, 'password': password});
-
-      print(response);
-      
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode({'email': email, 'password': password}));
 
       if (response.statusCode == 200) {
-        Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
+        await Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => const PatientLandingPage()));
       } else {
         final responseData = json.decode(response.body);
         final errorMsg = responseData['message'] ?? 'Login failed';
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(errorMsg)));
+            .showSnackBar(SnackBar(content: Text(errorMsg), backgroundColor: Colors.blue[800],));
       }
       return response;
-
     } catch (error) {
-      print(error);
+      // print(error);
       print('Error during login: $error');
       return http.Response('Error during login', 500);
     }
