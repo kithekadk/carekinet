@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:carekinet/screens/patientLandingPage.dart';
 import 'package:carekinet/screens/registerPatient.dart';
@@ -13,6 +12,7 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
+/// Login state
 class _LoginState extends State<Login> {
   bool hidePassword = true;
   final TextEditingController emailController = TextEditingController();
@@ -36,8 +36,10 @@ class _LoginState extends State<Login> {
         final responseData = json.decode(response.body);
         final errorMsg = responseData['message'] ?? 'Login failed';
         // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(errorMsg), backgroundColor: Colors.blue[800],));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(errorMsg),
+          backgroundColor: Colors.red[400],
+        ));
       }
       return response;
     } catch (error) {
