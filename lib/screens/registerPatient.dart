@@ -13,7 +13,6 @@ class RegisterPatient extends StatefulWidget {
 }
 
 class _RegisterState extends State<RegisterPatient> {
-
   final TextEditingController namesController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -21,7 +20,7 @@ class _RegisterState extends State<RegisterPatient> {
 
   Future<http.Response> _performRegistration(
       String fullname, String email, String password, String confirmpwd) async {
-        const apiUrl = 'http://10.0.2.2:4500/employee/register';
+    const apiUrl = 'http://10.0.2.2:4500/employee/register';
     try {
       final response = await http.post(Uri.parse(apiUrl),
           headers: {"Content-Type": "application/json"},
@@ -43,9 +42,8 @@ class _RegisterState extends State<RegisterPatient> {
         ));
       }
       return response;
-
     } catch (error) {
-       print('Error during login: $error');
+      print('Error during login: $error');
       return http.Response('Error during login', 500);
     }
   }
@@ -122,10 +120,13 @@ class _RegisterState extends State<RegisterPatient> {
             height: size.height * 0.06,
             child: ElevatedButton(
                 onPressed: () => {
-                  _performRegistration(
-                    namesController.text, emailController.text , passwordController.text, confirmpwdController.text
-                  )
-                }, child: Text('CREATE ACCOUNT')),
+                      _performRegistration(
+                          namesController.text,
+                          emailController.text,
+                          passwordController.text,
+                          confirmpwdController.text)
+                    },
+                child: Text('CREATE ACCOUNT')),
           ),
           Container(
             margin: EdgeInsets.only(top: size.width * 0.1),
