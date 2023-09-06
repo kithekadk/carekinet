@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:carekinet/screens/patientLandingPage.dart';
 import 'package:carekinet/screens/registerPatient.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -9,8 +12,42 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
+/// Login state
 class _LoginState extends State<Login> {
   bool hidePassword = true;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<http.Response> _performLogin(String email, String password) async {
+    const apiUrl = 'http://10.0.2.2:4500/employee/login';
+
+    try {
+      final response = await http.post(Uri.parse(apiUrl),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode({'email': email, 'password': password}));
+
+      if (response.statusCode == 200) {
+        // ignore: use_build_context_synchronously
+        await Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const PatientLandingPage()));
+      } else {
+        final responseData = json.decode(response.body);
+        final errorMsg = responseData['message'] ?? 'Login failed';
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(errorMsg),
+          backgroundColor: Colors.red[400],
+        ));
+      }
+      return response;
+    } catch (error) {
+      // print(error);
+      print('Error during login: $error');
+      return http.Response('Error during login', 500);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +100,10 @@ class _LoginState extends State<Login> {
         Container(
             margin: EdgeInsets.only(top: size.width * 0.1),
             width: size.width * 0.9,
-            child: const TextField(
-              decoration: InputDecoration(
-                  labelText: 'Username',
+            child: TextField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                  labelText: 'Email',
                   labelStyle: TextStyle(color: Color.fromARGB(255, 40, 40, 40)),
                   border: OutlineInputBorder(),
                   filled: true,
@@ -77,6 +115,7 @@ class _LoginState extends State<Login> {
           margin: EdgeInsets.only(top: size.width * 0.05),
           width: size.width * 0.9,
           child: TextField(
+            controller: passwordController,
             obscureText: hidePassword, // hide text for password inputs
             decoration: InputDecoration(
                 labelText: 'Password',
@@ -95,7 +134,7 @@ class _LoginState extends State<Login> {
                 border: const OutlineInputBorder(),
                 filled: true,
                 fillColor: const Color.fromARGB(255, 221, 221, 221),
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey))),
           ),
         ),
@@ -123,11 +162,13 @@ class _LoginState extends State<Login> {
               margin: EdgeInsets.only(top: size.height * 0.02),
               child: ElevatedButton(
                   onPressed: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const PatientLandingPage()))
+                        _performLogin(
+                            emailController.text, passwordController.text)
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) =>
+                        //             const PatientLandingPage()))
                       },
                   child: const Text('LOGIN')),
             ),
