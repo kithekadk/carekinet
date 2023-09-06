@@ -1,5 +1,6 @@
 import 'package:carekinet/screens/login.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class VerifyPhone extends StatelessWidget {
   const VerifyPhone({super.key});
@@ -22,6 +23,32 @@ Widget verifyPhoneBody(BuildContext context) {
           fit: BoxFit.cover,
           image: AssetImage('assets/african-nurse.jpg'),
           // image: NetworkImage('https://images.unsplash.com/photo-1610632380989-680fe40816c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGNvZmZlZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
+        ),
+        Padding(
+          padding: const EdgeInsetsDirectional.only(top: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    minimumSize: Size(size.width * 0.4, 40)),
+                onPressed: () {
+                  print('clicked');
+                },
+                child: const Text('Patients'),
+              ),
+              // GAP
+              const Gap(20),
+              TextButton(
+                style: ElevatedButton.styleFrom(
+                    minimumSize: Size(size.width * 0.4, 40)),
+                onPressed: () {
+                  print('clicked');
+                },
+                child: const Text('Caregiver'),
+              )
+            ],
+          ),
         ),
         Container(
           margin: const EdgeInsets.all(20),
@@ -71,7 +98,7 @@ Widget verifyPhoneBody(BuildContext context) {
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                minimumSize: Size(size.width * 0.9, 50)),
+                minimumSize: Size(size.width * 0.4, 50)),
             onPressed: () {
               print('clicked');
             },
