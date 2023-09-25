@@ -1,4 +1,6 @@
+import 'package:carekinet/screens/addPersonalCaregiver.dart';
 import 'package:carekinet/screens/constants/colors.dart';
+import 'package:carekinet/screens/login.dart';
 import 'package:flutter/material.dart';
 
 class PatientLandingPage extends StatelessWidget {
@@ -8,6 +10,7 @@ class PatientLandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
+      drawer: patientMenu(context),
       body: patientPage(context),
     );
   }
@@ -17,18 +20,18 @@ AppBar _buildAppBar() {
   return AppBar(
     elevation: 0, //removes navbar shadow
     backgroundColor: Colors.blue,
+    centerTitle: true,
     title:
         const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(''),
-      Icon(
-        Icons.menu,
-        color: Colors.black,
-        size: 30,
-      )
+      Text('CareKinet'),
+      // Icon(
+      //   Icons.menu,
+      //   color: Colors.black,
+      //   size: 30,
+      // )
     ]),
   );
 }
-
 
 Widget patientPage(BuildContext context) {
   Size size = MediaQuery.of(context).size;
@@ -41,7 +44,7 @@ Widget patientPage(BuildContext context) {
                   bottomLeft: Radius.circular(50.0),
                   bottomRight: Radius.circular(50.0)),
               color: Color.fromARGB(255, 136, 217, 255)),
-          height: size.height * 0.15,
+          height: size.height * 0.16,
           padding:
               EdgeInsets.symmetric(vertical: 8, horizontal: size.width * 0.03),
           child: Column(
@@ -97,7 +100,26 @@ Widget patientPage(BuildContext context) {
                   child: TextButton(
                       onPressed: () => {},
                       child: const Text(
-                        'Finding caregiver?',
+                        'Search caregiver?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 11.0, color: Colors.white),
+                      ))),
+              Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  width: 80,
+                  height: 80,
+                  child: TextButton(
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AddPersonalCaregiver()))
+                          },
+                      child: const Text(
+                        'Add my caregiver?',
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 11.0, color: Colors.white),
                       )))
@@ -109,7 +131,6 @@ Widget patientPage(BuildContext context) {
     ),
   );
 }
-
 
 Widget searchBox(BuildContext context) {
   Size size = MediaQuery.of(context).size;
@@ -132,7 +153,6 @@ Widget searchBox(BuildContext context) {
       ));
 }
 
-
 Widget activitiesSection(BuildContext context) {
   Size size = MediaQuery.of(context).size;
   return Padding(
@@ -140,44 +160,109 @@ Widget activitiesSection(BuildContext context) {
     child: Column(
       children: [
         Container(
-          margin: EdgeInsets.only(top: size.width * 0.03, bottom: size.width * 0.03),
+          margin: EdgeInsets.only(
+              top: size.width * 0.03, bottom: size.width * 0.03),
           child: const Text(
-            'Activity', textAlign: TextAlign.start,
+            'Activity',
+            textAlign: TextAlign.start,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         const Center(
           child: Text('You have no dosages'),
         ),
-        Divider(height: 5, thickness: 2.0, color: grey,),
+        Divider(
+          height: 5,
+          thickness: 2.0,
+          color: grey,
+        ),
         Row(
           children: [
             const Icon(
-              Icons.local_hospital, size: 50,color: Colors.green,
+              Icons.local_hospital,
+              size: 50,
+              color: Colors.green,
             ),
             Container(
-              width: size.width * 0.7,
-              padding: EdgeInsets.only(top: size.height * 0.1, left: size.width*0.2),
-                child:GestureDetector(
-                  child: Text('Add Dosages Now', style: TextStyle(color: grey),),
-                )
-              ),
+                width: size.width * 0.7,
+                padding: EdgeInsets.only(
+                    top: size.height * 0.15, left: size.width * 0.2),
+                child: GestureDetector(
+                  child: Text(
+                    'Add Dosages Now',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: grey),
+                  ),
+                )),
           ],
         ),
         Row(
           children: [
             const Icon(
-              Icons.calendar_today, size: 50,color: Colors.green,
+              Icons.calendar_today,
+              size: 50,
+              color: Colors.green,
             ),
             Container(
-              width: size.width * 0.7,
-              padding: EdgeInsets.only(top: size.height * 0.1, left: size.width*0.15),
-                child:GestureDetector(
-                  child: Text('Lets help you never miss any Appointment',style: TextStyle(color: grey),),
-                )
-              ),
+                width: size.width * 0.7,
+                padding: EdgeInsets.only(
+                    top: size.height * 0.15, left: size.width * 0.15),
+                child: GestureDetector(
+                  child: Text(
+                    'Lets help you never miss any Appointment',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: grey),
+                  ),
+                )),
           ],
         )
+      ],
+    ),
+  );
+}
+
+Widget patientMenu(BuildContext context) {
+  return Drawer(
+    child: ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        const DrawerHeader(
+          decoration: BoxDecoration(color: Colors.blue),
+          child: Text('Menu'),
+        ),
+        ListTile(
+          title: const Text('Upcoming Events'),
+          onTap: () {
+            print('Clicked');
+            Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          title: const Text('Medical History'),
+          onTap: () {
+            print('Clicked');
+          },
+        ),
+        ListTile(
+          title: const Text('Add Syptoms'),
+          onTap: () {
+            print('Clicked');
+          },
+        ),
+        ListTile(
+          title: const Text('View Caregivers'),
+          onTap: () {
+            print('Clicked');
+          },
+        ),
+        ListTile(
+          title: const Text('Logout'),
+          textColor: Colors.red,
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Login()));
+          },
+        ),
       ],
     ),
   );

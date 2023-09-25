@@ -2,31 +2,50 @@ import 'dart:convert';
 
 import 'package:carekinet/screens/login.dart';
 import 'package:carekinet/screens/patientLandingPage.dart';
-import 'package:carekinet/screens/registerCaregiver.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:http/http.dart' as http;
 
-class RegisterPatient extends StatefulWidget {
-  const RegisterPatient({super.key});
+class RegisterCaregiver extends StatefulWidget {
+  const RegisterCaregiver({super.key});
 
   @override
-  State<RegisterPatient> createState() => _RegisterState();
+  State<RegisterCaregiver> createState() => _RegisterState();
 }
 
-class _RegisterState extends State<RegisterPatient> {
-  final TextEditingController namesController = TextEditingController();
+class _RegisterState extends State<RegisterCaregiver> {
+  final TextEditingController fullnamesController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController phonenoController = TextEditingController();
+  final TextEditingController certificationController = TextEditingController();
+  final TextEditingController certifiedFromController = TextEditingController();
+  final TextEditingController profileController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmpwdController = TextEditingController();
 
   Future<http.Response> _performRegistration(
-      String fullname, String email, String password, String confirmpwd) async {
-    const apiUrl = 'http://localhost:4500/employee/register_caregiver';
+      String full_name,
+      String email,
+      String phone_no,
+      String certification_no,
+      String certified_from,
+      String profile,
+      String password
+      ) async {
+    const apiUrl = 'http://10.0.2.2:4500/employee/register_caregiver';
     try {
       final response = await http.post(Uri.parse(apiUrl),
           headers: {"Content-Type": "application/json"},
-          body: jsonEncode({'email': email, 'password': password}));
+          body: jsonEncode({
+            'full_name': full_name,
+            'email': email,
+            'phone_no': phone_no,
+            'certification_no': certification_no,
+            'certified_from': certified_from,
+            'profile': profile,
+            'password': password
+          }));
+
+      print(response);
 
       if (response.statusCode == 200) {
         // ignore: use_build_context_synchronously
@@ -70,7 +89,7 @@ class _RegisterState extends State<RegisterPatient> {
         children: [
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.symmetric(vertical: size.height * 0.10),
+            margin: EdgeInsets.symmetric(vertical: size.height * 0.05),
             child: const Text(
               'Care Kinet',
               style: TextStyle(
@@ -79,48 +98,29 @@ class _RegisterState extends State<RegisterPatient> {
                   fontWeight: FontWeight.bold),
             ),
           ),
-           Padding(
-          padding: const EdgeInsetsDirectional.only(top: 5.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: Size(size.width * 0.4, 40)),
-                onPressed: () {
-                  print('clicked');
-                },
-                child: const Text('Patients'),
-              ),
-              // GAP
-              const Gap(20),
-              TextButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: Size(size.width * 0.4, 40)),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterCaregiver(),
-                      ));
-                },
-                child: const Text('Caregiver'),
-              )
-            ],
-          ),
-        ),
+          const Padding(padding: EdgeInsetsDirectional.only(top: 5.0)),
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.symmetric(vertical: size.height * 0.01),
+            margin: EdgeInsets.symmetric(vertical: size.height * 0.005),
             width: size.width * 0.9,
             child: TextField(
-              controller: namesController,
+              controller: fullnamesController,
               decoration: const InputDecoration(
                   labelText: 'Full names', border: OutlineInputBorder()),
             ),
           ),
           Container(
             width: size.width * 0.9,
+            margin: EdgeInsets.symmetric(vertical: size.height * 0.005),
+            child: TextField(
+              controller: phonenoController,
+              decoration: const InputDecoration(
+                  labelText: 'Phone number', border: OutlineInputBorder()),
+            ),
+          ),
+          Container(
+            width: size.width * 0.9,
+            margin: EdgeInsets.symmetric(vertical: size.height * 0.005),
             child: TextField(
               controller: emailController,
               decoration: const InputDecoration(
@@ -128,7 +128,26 @@ class _RegisterState extends State<RegisterPatient> {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: size.height * 0.01),
+            width: size.width * 0.9,
+            margin: EdgeInsets.symmetric(vertical: size.height * 0.005),
+            child: TextField(
+              controller: certificationController,
+              decoration: const InputDecoration(
+                  labelText: 'Certification Number',
+                  border: OutlineInputBorder()),
+            ),
+          ),
+          Container(
+            width: size.width * 0.9,
+            margin: EdgeInsets.symmetric(vertical: size.height * 0.005),
+            child: TextField(
+              controller: certifiedFromController,
+              decoration: const InputDecoration(
+                  labelText: 'Certified From', border: OutlineInputBorder()),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: size.height * 0.005),
             width: size.width * 0.9,
             child: TextField(
               controller: passwordController,
@@ -138,12 +157,12 @@ class _RegisterState extends State<RegisterPatient> {
             ),
           ),
           Container(
+            margin: EdgeInsets.symmetric(vertical: size.height * 0.005),
             width: size.width * 0.9,
             child: TextField(
-              controller: confirmpwdController,
-              obscureText: true,
+              controller: profileController,
               decoration: const InputDecoration(
-                  labelText: 'Confirm Password', border: OutlineInputBorder()),
+                  labelText: 'Profile', border: OutlineInputBorder()),
             ),
           ),
           Container(
@@ -153,10 +172,13 @@ class _RegisterState extends State<RegisterPatient> {
             child: ElevatedButton(
                 onPressed: () => {
                       _performRegistration(
-                          namesController.text,
+                          fullnamesController.text,
                           emailController.text,
-                          passwordController.text,
-                          confirmpwdController.text)
+                          phonenoController.text,
+                          certificationController.text,
+                          certifiedFromController.text,
+                          profileController.text,
+                          passwordController.text)
                     },
                 child: Text('CREATE ACCOUNT')),
           ),
