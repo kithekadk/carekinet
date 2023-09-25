@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
       return response;
     } catch (error) {
       // print(error);
-      print('Error during login: $error');
+      // print('Error during login: $error');
       return http.Response('Error during login', 500);
     }
   }
