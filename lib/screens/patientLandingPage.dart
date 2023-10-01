@@ -1,6 +1,7 @@
 import 'package:carekinet/screens/addPersonalCaregiver.dart';
 import 'package:carekinet/screens/constants/colors.dart';
 import 'package:carekinet/screens/login.dart';
+import 'package:carekinet/screens/viewCaregivers.dart';
 import 'package:flutter/material.dart';
 
 class PatientLandingPage extends StatelessWidget {
@@ -98,7 +99,13 @@ Widget patientPage(BuildContext context) {
                   width: 80,
                   height: 80,
                   child: TextButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ViewCaregivers()))
+                          },
                       child: const Text(
                         'Search caregiver?',
                         textAlign: TextAlign.center,

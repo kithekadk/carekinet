@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:carekinet/screens/login.dart';
 import 'package:carekinet/screens/patientLandingPage.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterCaregiver extends StatefulWidget {
