@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
       return response;
     } catch (error) {
       // print(error);
-      print('Error during login: $error');
+      // print('Error during login: $error');
       return http.Response('Error during login', 500);
     }
   }
@@ -69,11 +69,13 @@ class _LoginState extends State<Login> {
     );
   }
 
+
   void switchHidePassword() {
     setState(() {
       hidePassword = !hidePassword;
     });
   }
+
 
   loginPage(BuildContext context) {
     Size size = MediaQuery.of(context).size;

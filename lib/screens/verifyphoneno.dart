@@ -1,4 +1,6 @@
 import 'package:carekinet/screens/login.dart';
+import 'package:carekinet/screens/patientLandingPage.dart';
+import 'package:carekinet/screens/registerCaregiver.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -43,7 +45,11 @@ Widget verifyPhoneBody(BuildContext context) {
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size(size.width * 0.4, 40)),
                 onPressed: () {
-                  print('clicked');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RegisterCaregiver(),
+                      ));
                 },
                 child: const Text('Caregiver'),
               )
@@ -111,7 +117,10 @@ Widget verifyPhoneBody(BuildContext context) {
             child: GestureDetector(
                 child: const Text('Skip Registration'),
                 onTap: () {
-                  print('Clicked');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PatientLandingPage()));
                 }),
           ),
         ),
