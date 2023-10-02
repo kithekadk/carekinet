@@ -63,7 +63,7 @@ Widget introText(BuildContext context) {
           height: 10,
         ),
         const Text(
-          'CareKinet is a mobile application designed to provide healthcare information and support to individuals. CareKinet helps users manage their appointments efficiently, ensuring timely access to healthcare services. It also focuses on improving drug adherence by providing medication reminders and tracking tools. Additionally, the app simplifies the process of finding and hiring home caregivers, offering a directory and matching services.',
+          'Are you looking to find a caregiver who really cares about you? Are you seeking to improve your health outcomes. We can help you. Register today.',
           style: TextStyle(fontSize: 13, color: Colors.black),
         ),
 

@@ -15,6 +15,7 @@ class ViewCaregivers extends StatefulWidget {
 }
 
 class _ListCarersState extends State<ViewCaregivers> {
+  bool hideFilter = false;
   List caregiver = [];
 
   @override
@@ -57,6 +58,12 @@ class _ListCarersState extends State<ViewCaregivers> {
     );
   }
 
+  void switchHideFilter() {
+    setState(() {
+      hideFilter = !hideFilter;
+    });
+  }
+
   AppBar _buildApBar() {
     return AppBar(
       elevation: 0,
@@ -78,6 +85,7 @@ class _ListCarersState extends State<ViewCaregivers> {
               color: Colors.white,
               padding:
                   const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -87,13 +95,19 @@ class _ListCarersState extends State<ViewCaregivers> {
                   ),
                   IconButton(
                       onPressed: () {
-                        print('View Menu');
+                        switchHideFilter();
                       },
                       icon: const Icon(Icons.arrow_downward_rounded))
                 ],
               ),
             ),
-            filterForm(context)
+
+            Visibility(
+              visible: hideFilter,
+              child: filterForm(context)
+              ),
+            const Divider(),
+            listCaregivers(true)
           ],
         ),
       ),
@@ -104,7 +118,7 @@ class _ListCarersState extends State<ViewCaregivers> {
     Size size = MediaQuery.of(context).size;
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 12.0),
+      padding: const EdgeInsets.symmetric(vertical: 9.0, horizontal: 12.0),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -121,7 +135,7 @@ class _ListCarersState extends State<ViewCaregivers> {
                     onPressed: () {
                       print('fetch location');
                     },
-                    icon: const Icon(Icons.location_city_rounded))
+                    icon: const Icon(Icons.location_on))
               ],
             ),
             const Row(
@@ -137,7 +151,7 @@ class _ListCarersState extends State<ViewCaregivers> {
             ),
             Container(
               padding:
-                  const EdgeInsets.symmetric(vertical: 6.0, horizontal: 0.0),
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 0.0),
               child: (const Text('By Date & Time',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
             ),
@@ -155,7 +169,7 @@ class _ListCarersState extends State<ViewCaregivers> {
                     child: Text('Select Start date'),
                   ),
                 ),
-                Gap(16.0),
+                const Gap(16.0),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
@@ -179,44 +193,54 @@ class _ListCarersState extends State<ViewCaregivers> {
                 ),
               ],
             ),
-            listCaregivers()
           ],
         ),
       ),
     );
   }
 
-  Widget listCaregivers() {
-    return Container(
-      color: const Color.fromARGB(255, 244, 244, 244),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-      margin: const EdgeInsets.only(bottom: 8),
-        height: 391,
-        child: ListView.builder(
-          itemCount: caregiver.length,
-          itemBuilder: (context, index) {
-            return singleCaregiver(caregiver[index]['full_name']);
-          },
-        ));
+  Widget listCaregivers(bool isVisible) {
+    return Visibility(
+      visible: isVisible,
+      child: Container(
+          color: const Color.fromARGB(255, 244, 244, 244),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          margin: const EdgeInsets.only(bottom: 8),
+          height: hideFilter ? 385 : 630,
+          child: ListView.builder(
+            itemCount: caregiver.length,
+            itemBuilder: (context, index) {
+              return singleCaregiver(caregiver[index]['full_name']);
+            },
+          )),
+    );
   }
 
   Widget singleCaregiver(String fullName) {
-    return Container(
-        color: Colors.grey,
-        margin: const EdgeInsets.only(bottom: 10),
-        child: ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          onTap: () {
-            print('One Caregiver card');
-          },
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          tileColor: Colors.white,
-          title: Text(fullName),
-          trailing: Container(
-            child: Text('Trailing'),
-          ),
-        ));
+    return Column(
+      children: [
+        Container(
+            color: const Color.fromARGB(255, 218, 218, 218),
+            margin: const EdgeInsets.only(bottom: 10),
+            child: ListTile(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              onTap: () {
+                print('One Caregiver card');
+              },
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              tileColor: Colors.white,
+              title: Text(fullName),
+              trailing: Container(
+                  child: IconButton(
+                onPressed: () {
+                  print('chat');
+                },
+                icon: const Icon(Icons.message_outlined),
+              )),
+            )),
+      ],
+    );
   }
 }

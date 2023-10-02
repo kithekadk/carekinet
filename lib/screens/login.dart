@@ -69,11 +69,13 @@ class _LoginState extends State<Login> {
     );
   }
 
+
   void switchHidePassword() {
     setState(() {
       hidePassword = !hidePassword;
     });
   }
+
 
   loginPage(BuildContext context) {
     Size size = MediaQuery.of(context).size;
