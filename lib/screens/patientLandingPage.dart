@@ -1,3 +1,4 @@
+import 'package:carekinet/screens/addDosages.dart';
 import 'package:carekinet/screens/addPersonalCaregiver.dart';
 import 'package:carekinet/screens/constants/colors.dart';
 import 'package:carekinet/screens/login.dart';
@@ -195,6 +196,9 @@ Widget activitiesSection(BuildContext context) {
                 padding: EdgeInsets.only(
                     top: size.height * 0.15, left: size.width * 0.2),
                 child: GestureDetector(
+                  onTap: () {
+                    addDosages(context);
+                  },
                   child: Text(
                     'Add Dosages Now',
                     textAlign: TextAlign.center,
@@ -202,6 +206,14 @@ Widget activitiesSection(BuildContext context) {
                   ),
                 )),
           ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child: Divider(
+            height: 5,
+            thickness: 1.0,
+            color: grey,
+          ),
         ),
         Row(
           children: [
@@ -273,4 +285,11 @@ Widget patientMenu(BuildContext context) {
       ],
     ),
   );
+}
+
+void addDosages(BuildContext context) {
+  Navigator.push(context,
+  MaterialPageRoute(
+    builder: (context) => const AddDosages(),
+  ));
 }
